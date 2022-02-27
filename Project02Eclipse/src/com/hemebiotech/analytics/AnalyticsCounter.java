@@ -1,41 +1,47 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class AnalyticsCounter {
-	private static int headacheCount = 0;	
-	private static int rashCount = 0;	
-	private static int pupilCount = 0;		
+public class AnalyticsCounter {	
 	
 	public static void main(String args[]) throws Exception {
 		
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
+		ReadSymptomDataFromFile reader = new ReadSymptomDataFromFile("symptoms.txt");
 		
-		while (line != null) {	
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headacheCount++;
-				System.out.println("number of headaches: " + headacheCount);
-			}
-			else if (line.equals("rash")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
-
-			line = reader.readLine();	
+		List<String> symptoms = reader.getSymptoms();
+		List<String> symptoms_number = new ArrayList<String>();;
+		Set<String> symptoms_not_repeat = new HashSet<String>();
+		symptoms_not_repeat.addAll(symptoms);
+	
+		
+		for(String symptom: symptoms_not_repeat ) {
+			symptoms_number.add(symptom + ": " +Collections.frequency(symptoms,symptom));
+			
 		}
+		Collections.sort(symptoms_number);
 		
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-		reader.close();
+		
+		try {
+		      FileWriter myWriter = new FileWriter("result.out");
+		      for(String symptom: symptoms_number ) {
+					System.out.println(symptom);
+					myWriter.write(symptom+"\n");		
+				}
+		      
+		      myWriter.close();
+		      System.out.println("Successfully wrote to the file.");
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+
+
 	}
 	
 }
