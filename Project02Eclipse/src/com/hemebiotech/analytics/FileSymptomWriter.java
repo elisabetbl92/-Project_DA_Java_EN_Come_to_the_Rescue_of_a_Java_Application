@@ -4,10 +4,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class FileSymtomWriter implements ISymptomWriter {
+public class FileSymptomWriter implements ISymptomWriter {
 	private final String filename;
 
-	public FileSymtomWriter(String filename) {
+	public FileSymptomWriter(String filename) {
 		this.filename = filename;
 	}
 
