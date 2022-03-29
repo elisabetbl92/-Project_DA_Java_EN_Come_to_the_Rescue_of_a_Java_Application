@@ -19,9 +19,7 @@ public class SymptomProcessing {
 
 
 	public void processSymptoms() {
-
 		List<String> symptoms = new ReadSymptomDataFromFile(input).getSymptoms();
-
 		List<String> symptomsNumber = new ArrayList<String>();
 		Set<String> symptomsNotRepeat = new HashSet<String>();
 		symptomsNotRepeat.addAll(symptoms);
